@@ -6,12 +6,16 @@ public class Mover : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 10f;
 
+    Rigidbody rigidBody = null;
+
+
     void Start()
     {
         PrintInstructions();
+        rigidBody = GetComponent<Rigidbody>();
     }
     
-    void Update()
+    void FixedUpdate()
     {
         MovePlayer();
     }
@@ -20,14 +24,15 @@ public class Mover : MonoBehaviour
     {
         Debug.Log("Welcome to the Game!");
         Debug.Log("Move your player with WASD or Arrow Keys");
-        Debug.Log("Don't hit the walls.");
+        Debug.Log("Don't hit the walls or other obstacles.");
     }
 
     void MovePlayer()
     {
-        float xValue = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
-        float zValue = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
-        transform.Translate(xValue, 0, zValue);
+        float xValue = Input.GetAxis("Horizontal") * moveSpeed;
+        float zValue = Input.GetAxis("Vertical") * moveSpeed;
+
+        rigidBody.velocity = new Vector3(xValue, 0, zValue);
     }
 
 }
